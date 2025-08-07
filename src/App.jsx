@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react';
+import LoginPage from './components/LoginPage';
 import {
   ReactFlow,
   addEdge,
@@ -43,6 +44,7 @@ function WorkflowBuilder() {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [selectedWorkflowJson, setSelectedWorkflowJson] = useState(null);
+
   // Helper: Convert workflow JSON to nodes and edges for React Flow
   const loadWorkflowFromJson = useCallback((workflowJson) => {
     if (!workflowJson) return;
@@ -212,12 +214,38 @@ function WorkflowBuilder() {
 }
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+  };
+
+  // Show login page if user is not authenticated
+  if (!user?.isAuthenticated) {
+    return <LoginPage onLogin={handleLogin} />;
+  }
+
   return (
     <ReactFlowProvider>
       <div className="h-screen">
-        <header className="bg-white border-b border-gray-200 px-6 py-4">
-          <h1 className="text-2xl font-bold text-gray-800">Workflow Builder</h1>
-          <p className="text-sm text-gray-600">Drag nodes from the palette to create your workflow</p>
+        <header className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-800">Workflow Builder</h1>
+            <p className="text-sm text-gray-600">Drag nodes from the palette to create your workflow</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-gray-600">Welcome, {user.username}</span>
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              Logout
+            </button>
+          </div>
         </header>
         <WorkflowBuilder />
       </div>
