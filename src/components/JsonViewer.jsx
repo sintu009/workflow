@@ -58,7 +58,7 @@ const JsonViewer = ({ nodes, edges }) => {
       }
 
       console.log('Sending workflowData:', JSON.stringify(workflowData, null, 2));
-      const response = await fetch('http://10.10.10.34:8081/workflows/generateBPMN', {
+      const response = await fetch('/workflow-api/generateBPMN', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

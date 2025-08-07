@@ -48,7 +48,7 @@ export const api = {
   // ✅ NEW: Get all workflows
   getAllWorkflows: async () => {
     try {
-      const response = await axios.get('http://10.10.10.34:8081/workflows/all-workflows');
+      const response = await axios.get('/workflow-api/all-workflows');
       return response.data || [];
     } catch (error) {
       console.error("Error fetching workflows:", error);
@@ -59,7 +59,7 @@ export const api = {
   // ✅ NEW: Get workflow JSON by name
   getWorkflowJson: async (workflowName) => {
     try {
-      const response = await axios.get(`http://10.10.10.34:8081/workflows/json/${workflowName}`);
+      const response = await axios.get(`/workflow-api/json/${workflowName}`);
       return response.data;
     } catch (error) {
       console.error(`Error fetching workflow JSON for ${workflowName}:`, error);
