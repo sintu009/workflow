@@ -19,6 +19,7 @@ import TaskNode from './components/CustomNodes/TaskNode';
 import GatewayNode from './components/CustomNodes/GatewayNode';
 import EventNode from './components/CustomNodes/EventNode';
 import ConditionEdge from './components/ConditionEdge';
+import { User, LogOut, Workflow, Save, Undo, Settings } from 'lucide-react';
 
 const nodeTypes = {
   task: TaskNode,
@@ -49,6 +50,11 @@ function WorkflowBuilder() {
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
 
+  // Track modifications to the workflow
+  const markAsModified = useCallback(() => {
+    setIsWorkflowModified(true);
+  }, []);
+
   // Save state to history for undo functionality
   const saveToHistory = useCallback((nodes, edges) => {
     const newState = { nodes: [...nodes], edges: [...edges] };
@@ -70,12 +76,7 @@ function WorkflowBuilder() {
       setHistoryIndex(prev => prev - 1);
       markAsModified();
     }
-  }, [history, historyIndex, setNodes, setEdges]);
-
-  // Track modifications to the workflow
-  const markAsModified = useCallback(() => {
-    setIsWorkflowModified(true);
-  }, []);
+  }, [history, historyIndex, setNodes, setEdges, markAsModified]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -300,23 +301,42 @@ function WorkflowBuilder() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <NodePalette onDragStart={onDragStart} onWorkflowSelect={handleWorkflowSelect} />
       
       <div className="flex-1 relative" ref={reactFlowWrapper}>
-        {/* Workflow Status Bar */}
+        {/* Enhanced Workflow Status Bar */}
         {currentWorkflowName && (
-          <div className="absolute top-4 left-4 z-10 bg-white px-3 py-2 rounded-lg shadow-md border border-gray-200">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-gray-700">
-                Editing: {currentWorkflowName}
-              </span>
+          <div className="absolute top-6 left-6 z-10 bg-white/95 backdrop-blur-sm px-4 py-3 rounded-xl shadow-lg border border-slate-200/50">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <Workflow className="w-4 h-4 text-blue-600" />
+                <span className="text-sm font-semibold text-slate-700">
+                  {currentWorkflowName}
+                </span>
+              </div>
               {isWorkflowModified && (
-                <span className="w-2 h-2 bg-orange-500 rounded-full" title="Workflow has unsaved changes"></span>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
+                  <span className="text-xs text-amber-600 font-medium">Modified</span>
+                </div>
               )}
             </div>
           </div>
         )}
+
+        {/* Toolbar */}
+        <div className="absolute top-6 right-6 z-10 flex items-center gap-2">
+          <button
+            onClick={undo}
+            disabled={historyIndex <= 0}
+            className="flex items-center gap-2 px-3 py-2 bg-white/95 backdrop-blur-sm text-slate-700 rounded-lg shadow-md border border-slate-200/50 hover:bg-white hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Undo (Ctrl+Z)"
+          >
+            <Undo className="w-4 h-4" />
+            <span className="text-sm font-medium">Undo</span>
+          </button>
+        </div>
 
         <ReactFlow
           nodes={nodes}
@@ -332,28 +352,40 @@ function WorkflowBuilder() {
           edgeTypes={{
             condition: (props) => <ConditionEdge {...props} onEdgeUpdate={onEdgeUpdate} />,
           }}
-          className="bg-gray-50"
+          className="bg-gradient-to-br from-slate-50 to-slate-100"
           connectionLineType="smoothstep"
           defaultEdgeOptions={{
             type: 'smoothstep',
             animated: false,
-            style: { strokeWidth: 2, stroke: '#6b7280' },
+            style: { strokeWidth: 2, stroke: '#64748b' },
           }}
           fitView
+          attributionPosition="bottom-left"
         >
-          <Controls className="bg-white border border-gray-200" />
+          <Controls 
+            className="bg-white/95 backdrop-blur-sm border border-slate-200/50 shadow-lg rounded-lg"
+            showZoom={true}
+            showFitView={true}
+            showInteractive={true}
+          />
           <MiniMap 
-            className="bg-white border border-gray-200"
+            className="bg-white/95 backdrop-blur-sm border border-slate-200/50 shadow-lg rounded-lg"
             nodeColor={(node) => {
               switch (node.type) {
                 case 'task': return '#3b82f6';
                 case 'gateway': return '#f97316';
                 case 'event': return '#10b981';
-                default: return '#6b7280';
+                default: return '#64748b';
               }
             }}
+            maskColor="rgba(0, 0, 0, 0.1)"
           />
-          <Background color="#f3f4f6" gap={20} />
+          <Background 
+            color="#e2e8f0" 
+            gap={24} 
+            size={1}
+            variant="dots"
+          />
         </ReactFlow>
       </div>
 
@@ -396,31 +428,51 @@ function App() {
   return (
     <ReactFlowProvider>
       {showLogin && <LoginPage onLogin={handleLogin} />}
-      <div className="h-screen">
-        <header className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800">Workflow Builder</h1>
-            <p className="text-sm text-gray-600">Drag nodes from the palette to create your workflow</p>
-          </div>
-          <div className="flex items-center gap-4">
-            {user?.isAuthenticated ? (
-              <>
-                <span className="text-sm text-gray-600">Welcome, {user.username}</span>
+      <div className="h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+        {/* Enhanced Header */}
+        <header className="bg-white/95 backdrop-blur-sm border-b border-slate-200/50 shadow-sm">
+          <div className="px-6 py-4 flex justify-between items-center">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
+                  <Workflow className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                    Workflow Builder
+                  </h1>
+                  <p className="text-sm text-slate-500">Design and manage your business processes</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              {user?.isAuthenticated ? (
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-lg border border-slate-200">
+                    <User className="w-4 h-4 text-slate-600" />
+                    <span className="text-sm font-medium text-slate-700">
+                      Welcome, {user.username}
+                    </span>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-all duration-200 border border-slate-200"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span className="text-sm font-medium">Logout</span>
+                  </button>
+                </div>
+              ) : (
                 <button
-                  onClick={handleLogout}
-                  className="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  onClick={handleShowLogin}
+                  className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl"
                 >
-                  Logout
+                  <User className="w-4 h-4" />
+                  <span className="text-sm font-medium">Login</span>
                 </button>
-              </>
-            ) : (
-              <button
-                onClick={handleShowLogin}
-                className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Login
-              </button>
-            )}
+              )}
+            </div>
           </div>
         </header>
         <WorkflowBuilder />
