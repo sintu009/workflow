@@ -271,22 +271,25 @@ function WorkflowBuilder() {
 
 function App() {
   const [user, setUser] = useState(null);
+  const [showLogin, setShowLogin] = useState(false);
 
   const handleLogin = (userData) => {
     setUser(userData);
+    setShowLogin(false);
   };
 
   const handleLogout = () => {
     setUser(null);
+    setShowLogin(false);
   };
 
-  // Show login page if user is not authenticated
-  if (!user?.isAuthenticated) {
-    return <LoginPage onLogin={handleLogin} />;
-  }
+  const handleShowLogin = () => {
+    setShowLogin(true);
+  };
 
   return (
     <ReactFlowProvider>
+      {showLogin && <LoginPage onLogin={handleLogin} />}
       <div className="h-screen">
         <header className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
           <div>
@@ -294,13 +297,24 @@ function App() {
             <p className="text-sm text-gray-600">Drag nodes from the palette to create your workflow</p>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">Welcome, {user.username}</span>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-            >
-              Logout
-            </button>
+            {user?.isAuthenticated ? (
+              <>
+                <span className="text-sm text-gray-600">Welcome, {user.username}</span>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={handleShowLogin}
+                className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Login
+              </button>
+            )}
           </div>
         </header>
         <WorkflowBuilder />
