@@ -72,6 +72,11 @@ function WorkflowBuilder() {
     }
   }, [history, historyIndex, setNodes, setEdges]);
 
+  // Track modifications to the workflow
+  const markAsModified = useCallback(() => {
+    setIsWorkflowModified(true);
+  }, []);
+
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -104,6 +109,7 @@ function WorkflowBuilder() {
       window.removeEventListener('deleteNode', handleDeleteNode);
     };
   }, [nodes, edges, saveToHistory, setNodes, setEdges, markAsModified]);
+
   // Helper: Convert workflow JSON to nodes and edges for React Flow
   const loadWorkflowFromJson = useCallback((workflowJson) => {
     if (!workflowJson) {
@@ -160,11 +166,6 @@ function WorkflowBuilder() {
     setHistory([initialState]);
     setHistoryIndex(0);
   }, [setNodes, setEdges]);
-
-  // Track modifications to the workflow
-  const markAsModified = useCallback(() => {
-    setIsWorkflowModified(true);
-  }, []);
 
   // Enhanced onNodesChange to track modifications
   const handleNodesChange = useCallback((changes) => {
