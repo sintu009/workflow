@@ -71,19 +71,19 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
 
   return (
     <>
-      <div className="w-96 bg-white/95 backdrop-blur-sm border-l border-slate-200/50 shadow-lg overflow-y-auto relative">
+      <div className="w-96 bg-white border-l-2 border-slate-300 shadow-lg overflow-y-auto relative">
         {/* Header */}
-        <div className="p-6 border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-slate-100">
+        <div className="p-6 border-b-2 border-slate-300 bg-slate-50">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-indigo-600 border-2 border-indigo-700 flex items-center justify-center">
                 <Settings className="w-4 h-4 text-white" />
               </div>
               <h3 className="text-lg font-bold text-slate-800">Properties</h3>
             </div>
             <button 
               onClick={onClose} 
-              className="p-2 hover:bg-slate-200 rounded-lg transition-colors"
+              className="p-2 hover:bg-slate-200 border border-slate-300 transition-colors"
             >
               <X className="w-4 h-4 text-slate-600" />
             </button>
@@ -93,12 +93,12 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
 
         <div className="p-6 space-y-6">
           {/* Node Type */}
-          <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+          <div className="p-4 bg-slate-50 border-2 border-slate-300">
             <div className="flex items-center gap-2 mb-2">
               <Type className="w-4 h-4 text-slate-600" />
               <label className="text-sm font-semibold text-slate-700">Node Type</label>
             </div>
-            <div className="px-3 py-2 bg-white rounded-md text-sm font-medium text-slate-800 border border-slate-200">
+            <div className="px-3 py-2 bg-white text-sm font-medium text-slate-800 border-2 border-slate-300">
               {selectedNode.type.charAt(0).toUpperCase() + selectedNode.type.slice(1)} Node
             </div>
           </div>
@@ -120,7 +120,7 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
                     const task = tasks.find((t) => t.key === e.target.value);
                     setSelectedTask(task || null);
                   }}
-                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                 >
                   <option value="">Select a task...</option>
                   {tasks.map((task) => (
@@ -130,7 +130,7 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
                   ))}
                 </select>
                 {selectedTask && (
-                  <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="mt-3 p-3 bg-blue-50 border-2 border-blue-300">
                     <div className="text-sm">
                       <div className="font-medium text-blue-900 mb-1">Selected Task</div>
                       <div className="text-blue-700">{selectedTask.name}</div>
@@ -159,7 +159,7 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
                     const gateway = gateways.find((g) => g.key === e.target.value);
                     setSelectedGateway(gateway || null);
                   }}
-                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200"
                 >
                   <option value="">Select a gateway...</option>
                   {gateways.map((gateway) => (
@@ -169,7 +169,7 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
                   ))}
                 </select>
                 {selectedGateway && (
-                  <div className="mt-3 p-3 bg-orange-50 rounded-lg border border-orange-200">
+                  <div className="mt-3 p-3 bg-orange-50 border-2 border-orange-300">
                     <div className="text-sm">
                       <div className="font-medium text-orange-900 mb-1">Selected Gateway</div>
                       <div className="text-orange-700">{selectedGateway.name}</div>
@@ -199,7 +199,7 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
                     const selected = events.find((g) => g.key === e.target.value);
                     setEvent(selected || {});
                   }}
-                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                 >
                   <option value="">Select an event...</option>
                   {events.map((ev) => (
@@ -218,7 +218,7 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
                   type="text"
                   value={event.eventName || ""}
                   onChange={(e) => handleFieldChange("eventName", e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                   placeholder="Enter event name..."
                 />
               </div>
@@ -234,7 +234,7 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
                   type="text"
                   value={event.timeDuration || ""}
                   onChange={(e) => handleFieldChange("timeDuration", e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                   placeholder="e.g., PT1M, PT5S, PT1H"
                 />
                 <div className="mt-2 text-xs text-slate-500">
@@ -245,10 +245,10 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
           )}
 
           {/* Action Buttons */}
-          <div className="pt-6 border-t border-slate-200 space-y-3">
+          <div className="pt-6 border-t-2 border-slate-300 space-y-3">
             <button
               onClick={handleSave}
-              className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-md hover:shadow-lg font-semibold"
+              className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-blue-600 text-white border-2 border-blue-700 hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg font-semibold"
             >
               <Save className="w-4 h-4" />
               Save Changes
@@ -256,7 +256,7 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
 
             <button
               onClick={onNodeDelete}
-              className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-md hover:shadow-lg font-semibold"
+              className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-red-600 text-white border-2 border-red-700 hover:bg-red-700 transition-all duration-200 shadow-md hover:shadow-lg font-semibold"
             >
               <Trash2 className="w-4 h-4" />
               Delete Node

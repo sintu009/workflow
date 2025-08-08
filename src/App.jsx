@@ -307,7 +307,7 @@ function WorkflowBuilder() {
       <div className="flex-1 relative" ref={reactFlowWrapper}>
         {/* Enhanced Workflow Status Bar */}
         {currentWorkflowName && (
-          <div className="absolute top-6 left-6 z-10 bg-white/95 backdrop-blur-sm px-4 py-3 rounded-xl shadow-lg border border-slate-200/50">
+          <div className="absolute top-6 left-6 z-10 bg-white px-4 py-3 shadow-lg border-2 border-slate-300">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
                 <Workflow className="w-4 h-4 text-blue-600" />
@@ -317,7 +317,7 @@ function WorkflowBuilder() {
               </div>
               {isWorkflowModified && (
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
+                  <div className="w-2 h-2 bg-amber-500 animate-pulse" />
                   <span className="text-xs text-amber-600 font-medium">Modified</span>
                 </div>
               )}
@@ -330,7 +330,7 @@ function WorkflowBuilder() {
           <button
             onClick={undo}
             disabled={historyIndex <= 0}
-            className="flex items-center gap-2 px-3 py-2 bg-white/95 backdrop-blur-sm text-slate-700 rounded-lg shadow-md border border-slate-200/50 hover:bg-white hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-3 py-2 bg-white text-slate-700 shadow-md border-2 border-slate-300 hover:bg-slate-50 hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             title="Undo (Ctrl+Z)"
           >
             <Undo className="w-4 h-4" />
@@ -363,13 +363,13 @@ function WorkflowBuilder() {
           attributionPosition="bottom-left"
         >
           <Controls 
-            className="bg-white/95 backdrop-blur-sm border border-slate-200/50 shadow-lg rounded-lg"
+            className="bg-white border-2 border-slate-300 shadow-lg"
             showZoom={true}
             showFitView={true}
             showInteractive={true}
           />
           <MiniMap 
-            className="bg-white/95 backdrop-blur-sm border border-slate-200/50 shadow-lg rounded-lg"
+            className="bg-white border-2 border-slate-300 shadow-lg"
             nodeColor={(node) => {
               switch (node.type) {
                 case 'task': return '#3b82f6';
@@ -430,11 +430,11 @@ function App() {
       {showLogin && <LoginPage onLogin={handleLogin} />}
       <div className="h-screen bg-gradient-to-br from-slate-50 to-slate-100">
         {/* Enhanced Header */}
-        <header className="bg-white/95 backdrop-blur-sm border-b border-slate-200/50 shadow-sm">
+        <header className="bg-white border-b-2 border-slate-300 shadow-md">
           <div className="px-6 py-4 flex justify-between items-center">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 bg-blue-600 border-2 border-blue-700 flex items-center justify-center shadow-md">
                   <Workflow className="w-5 h-5 text-white" />
                 </div>
                 <div>
@@ -449,7 +449,7 @@ function App() {
             <div className="flex items-center gap-4">
               {user?.isAuthenticated ? (
                 <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-lg border border-slate-200">
+                  <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 border-2 border-slate-300">
                     <User className="w-4 h-4 text-slate-600" />
                     <span className="text-sm font-medium text-slate-700">
                       Welcome, {user.username}
@@ -457,7 +457,7 @@ function App() {
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-all duration-200 border border-slate-200"
+                    className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 border-2 border-slate-300 hover:bg-slate-200 transition-all duration-200"
                   >
                     <LogOut className="w-4 h-4" />
                     <span className="text-sm font-medium">Logout</span>
@@ -466,7 +466,7 @@ function App() {
               ) : (
                 <button
                   onClick={handleShowLogin}
-                  className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white border-2 border-blue-700 hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
                 >
                   <User className="w-4 h-4" />
                   <span className="text-sm font-medium">Login</span>

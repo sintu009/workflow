@@ -61,11 +61,11 @@ const NodePalette = ({ onDragStart, onWorkflowSelect }) => {
   };
 
   return (
-    <div className="w-80 bg-white/95 backdrop-blur-sm border-r border-slate-200/50 shadow-lg overflow-y-auto h-screen">
+    <div className="w-80 bg-white border-r-2 border-slate-300 shadow-lg overflow-y-auto h-screen">
       {/* Header */}
-      <div className="p-6 border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-slate-100">
+      <div className="p-6 border-b-2 border-slate-300 bg-slate-50">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-blue-600 border-2 border-blue-700 flex items-center justify-center">
             <Square className="w-4 h-4 text-white" />
           </div>
           <h3 className="text-lg font-bold text-slate-800">Node Palette</h3>
@@ -79,11 +79,11 @@ const NodePalette = ({ onDragStart, onWorkflowSelect }) => {
         
         <div className="space-y-3">
           <div
-            className="group flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl cursor-grab hover:from-blue-100 hover:to-blue-200 hover:border-blue-300 hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02]"
+            className="group flex items-center gap-4 p-4 bg-blue-50 border-2 border-blue-200 cursor-grab hover:bg-blue-100 hover:border-blue-300 hover:shadow-lg transition-all duration-200"
             draggable
             onDragStart={(e) => onDragStart(e, "task")}
           >
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
+            <div className="w-10 h-10 bg-blue-600 border-2 border-blue-700 flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
               <Square className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
@@ -93,11 +93,11 @@ const NodePalette = ({ onDragStart, onWorkflowSelect }) => {
           </div>
 
           <div
-            className="group flex items-center gap-4 p-4 bg-gradient-to-r from-green-50 to-green-100 border-2 border-green-200 rounded-xl cursor-grab hover:from-green-100 hover:to-green-200 hover:border-green-300 hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02]"
+            className="group flex items-center gap-4 p-4 bg-green-50 border-2 border-green-200 cursor-grab hover:bg-green-100 hover:border-green-300 hover:shadow-lg transition-all duration-200"
             draggable
             onDragStart={(e) => onDragStart(e, "event")}
           >
-            <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
+            <div className="w-10 h-10 bg-green-600 border-2 border-green-700 flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
               <Circle className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
@@ -107,11 +107,11 @@ const NodePalette = ({ onDragStart, onWorkflowSelect }) => {
           </div>
 
           <div
-            className="group flex items-center gap-4 p-4 bg-gradient-to-r from-orange-50 to-orange-100 border-2 border-orange-200 rounded-xl cursor-grab hover:from-orange-100 hover:to-orange-200 hover:border-orange-300 hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02]"
+            className="group flex items-center gap-4 p-4 bg-orange-50 border-2 border-orange-200 cursor-grab hover:bg-orange-100 hover:border-orange-300 hover:shadow-lg transition-all duration-200"
             draggable
             onDragStart={(e) => onDragStart(e, "gateway")}
           >
-            <div className="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
+            <div className="w-10 h-10 bg-orange-600 border-2 border-orange-700 flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
               <Diamond className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
@@ -123,12 +123,12 @@ const NodePalette = ({ onDragStart, onWorkflowSelect }) => {
       </div>
 
       {/* Workflow Actions */}
-      <div className="p-6 border-t border-slate-200/50">
+      <div className="p-6 border-t-2 border-slate-300">
         <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wide mb-4">Actions</h4>
         <div className="space-y-3">
           <button
             onClick={handleClearCanvas}
-            className="w-full flex items-center gap-3 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-all duration-200 border border-slate-200"
+            className="w-full flex items-center gap-3 px-4 py-3 bg-slate-100 text-slate-700 border-2 border-slate-300 hover:bg-slate-200 transition-all duration-200"
           >
             <Trash2 className="w-4 h-4" />
             <span className="font-medium">Clear Canvas</span>
@@ -136,7 +136,7 @@ const NodePalette = ({ onDragStart, onWorkflowSelect }) => {
           {workflowJson && (
             <button
               onClick={handleLoadWorkflow}
-              className="w-full flex items-center gap-3 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
+              className="w-full flex items-center gap-3 px-4 py-3 bg-blue-600 text-white border-2 border-blue-700 hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
             >
               <RefreshCw className="w-4 h-4" />
               <span className="font-medium">Reload Workflow</span>
@@ -146,7 +146,7 @@ const NodePalette = ({ onDragStart, onWorkflowSelect }) => {
       </div>
 
       {/* Workflows List */}
-      <div className="p-6 border-t border-slate-200/50">
+      <div className="p-6 border-t-2 border-slate-300">
         <div className="flex items-center gap-2 mb-4">
           <FolderOpen className="w-4 h-4 text-slate-600" />
           <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Saved Workflows</h4>
@@ -164,7 +164,7 @@ const NodePalette = ({ onDragStart, onWorkflowSelect }) => {
             <div
               key={name}
               onClick={() => handleWorkflowClick(name)}
-              className={`group cursor-pointer px-4 py-3 rounded-lg border-2 transition-all duration-200 ${
+              className={`group cursor-pointer px-4 py-3 border-2 transition-all duration-200 ${
                 selectedWorkflow === name 
                   ? "bg-blue-100 border-blue-300 text-blue-900" 
                   : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100 hover:border-slate-300"
@@ -193,11 +193,11 @@ const NodePalette = ({ onDragStart, onWorkflowSelect }) => {
 
       {/* Selected Workflow Preview */}
       {workflowJson && (
-        <div className="p-6 border-t border-slate-200/50 bg-slate-50/50">
-          <div className="bg-white rounded-lg border border-slate-200 p-4">
+        <div className="p-6 border-t-2 border-slate-300 bg-slate-50">
+          <div className="bg-white border-2 border-slate-300 p-4">
             <div className="flex items-center justify-between mb-3">
               <h5 className="text-sm font-semibold text-slate-700">Preview</h5>
-              <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">
+              <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 border border-slate-300">
                 {selectedWorkflow}
               </span>
             </div>

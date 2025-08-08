@@ -83,11 +83,11 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
   };
 
   return (
-    <div className="w-96 bg-white/95 backdrop-blur-sm border-l border-slate-200/50 shadow-lg overflow-y-auto">
+    <div className="w-96 bg-white border-l-2 border-slate-300 shadow-lg overflow-y-auto">
       {/* Header */}
-      <div className="p-6 border-b border-slate-200/50 bg-gradient-to-r from-slate-50 to-slate-100">
+      <div className="p-6 border-b-2 border-slate-300 bg-slate-50">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-purple-700 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-purple-600 border-2 border-purple-700 flex items-center justify-center">
             <Code className="w-4 h-4 text-white" />
           </div>
           <h3 className="text-lg font-bold text-slate-800">Workflow JSON</h3>
@@ -101,7 +101,7 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
       </div>
 
       {/* Configuration */}
-      <div className="p-6 space-y-4 border-b border-slate-200/50">
+      <div className="p-6 space-y-4 border-b-2 border-slate-300">
         <div className="flex items-center gap-2 mb-4">
           <Settings className="w-4 h-4 text-slate-600" />
           <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Configuration</h4>
@@ -116,7 +116,7 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
             id="clientId"
             value={clientId}
             onChange={(e) => setClientId(e.target.value)}
-            className="w-full p-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            className="w-full p-3 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
             placeholder="Enter client ID"
           />
         </div>
@@ -130,13 +130,13 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
             id="workflowName"
             value={workflowName}
             onChange={(e) => setWorkflowName(e.target.value)} 
-            className="w-full p-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            className="w-full p-3 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
             placeholder="Enter workflow name"
           />
         </div>
         
         {currentWorkflowName && (
-          <div className="p-3 bg-blue-50 border-2 border-blue-200 rounded-lg">
+          <div className="p-3 bg-blue-50 border-2 border-blue-300">
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-blue-600" />
               <div className="text-sm">
@@ -150,10 +150,10 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className={`w-full flex items-center justify-center gap-3 p-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed ${
+          className={`w-full flex items-center justify-center gap-3 p-3 border-2 font-semibold transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed ${
             isModified 
-              ? 'bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white' 
-              : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white'
+              ? 'bg-amber-500 border-amber-600 hover:bg-amber-600 text-white' 
+              : 'bg-blue-600 border-blue-700 hover:bg-blue-700 text-white'
           }`}
         >
           {isSaving ? (
@@ -173,12 +173,12 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
       {/* JSON Preview */}
       <div className="p-6">
         <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wide mb-4">JSON Preview</h4>
-        <div className="bg-slate-900 rounded-lg border border-slate-200 overflow-hidden">
-          <div className="p-4 bg-slate-800 border-b border-slate-700">
+        <div className="bg-slate-900 border-2 border-slate-300 overflow-hidden">
+          <div className="p-4 bg-slate-800 border-b-2 border-slate-700">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <div className="w-3 h-3 bg-red-500"></div>
+              <div className="w-3 h-3 bg-yellow-500"></div>
+              <div className="w-3 h-3 bg-green-500"></div>
               <span className="ml-2 text-xs text-slate-400 font-mono">workflow.json</span>
             </div>
           </div>

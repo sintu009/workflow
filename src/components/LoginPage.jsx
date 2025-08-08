@@ -52,9 +52,10 @@ const LoginPage = ({ onLogin }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="max-w-md w-full">
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-slate-200">
+        <div className="bg-white shadow-2xl p-8 border-2 border-slate-300">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="mx-auto h-16 w-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+            <div className="mx-auto h-16 w-16 bg-blue-600 border-2 border-blue-700 flex items-center justify-center mb-4 shadow-lg">
               <Workflow className="h-8 w-8 text-white" />
             </div>
             <h2 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
@@ -65,7 +66,7 @@ const LoginPage = ({ onLogin }) => {
 
           {/* Error Message */}
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-lg">
+            <div className="mb-6 p-4 bg-red-50 border-2 border-red-300">
               <p className="text-red-700 text-sm font-medium">{error}</p>
             </div>
           )}
@@ -87,7 +88,7 @@ const LoginPage = ({ onLogin }) => {
                   required
                   value={credentials.username}
                   onChange={handleInputChange}
-                  className="block w-full pl-12 pr-4 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50"
+                  className="block w-full pl-12 pr-4 py-3 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
                   placeholder="Enter your username"
                 />
               </div>
@@ -108,13 +109,13 @@ const LoginPage = ({ onLogin }) => {
                   required
                   value={credentials.password}
                   onChange={handleInputChange}
-                  className="block w-full pl-12 pr-12 py-3 border-2 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50"
+                  className="block w-full pl-12 pr-12 py-3 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center hover:bg-slate-100 rounded-r-lg transition-colors"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center hover:bg-slate-100 transition-colors"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5 text-slate-400 hover:text-slate-600" />
@@ -131,7 +132,7 @@ const LoginPage = ({ onLogin }) => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-700 font-medium">
                   Remember me
@@ -148,7 +149,7 @@ const LoginPage = ({ onLogin }) => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex justify-center items-center gap-3 py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-full flex justify-center items-center gap-3 py-3 px-4 border-2 border-blue-700 shadow-md text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
               {isLoading ? (
                 <>
@@ -162,7 +163,7 @@ const LoginPage = ({ onLogin }) => {
           </form>
 
           {/* Demo Credentials */}
-          <div className="mt-8 p-4 bg-slate-50 rounded-lg border border-slate-200">
+          <div className="mt-8 p-4 bg-slate-50 border-2 border-slate-300">
             <p className="text-xs text-slate-600 text-center">
               <strong className="text-slate-700">Demo Mode:</strong> Enter any username and password to login
             </p>

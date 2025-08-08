@@ -93,12 +93,12 @@ const ConditionEdge = ({
           <circle
             cx={labelX}
             cy={labelY}
-            r="14"
+            r="12"
             className="fill-orange-500 cursor-pointer hover:fill-orange-600 transition-colors duration-200 drop-shadow-md"
             onClick={handleAddCondition}
             style={{ pointerEvents: 'all' }}
           />
-          <foreignObject x={labelX - 6} y={labelY - 6} width="12" height="12">
+          <foreignObject x={labelX - 5} y={labelY - 5} width="10" height="10">
             <Plus className="w-3 h-3 text-white pointer-events-none" />
           </foreignObject>
         </g>
@@ -107,11 +107,10 @@ const ConditionEdge = ({
       {selectedCondition && (
         <g style={{ overflow: 'visible' }}>
           <rect
-            x={labelX - 60}
-            y={labelY - 14}
-            width="120"
-            height="28"
-            rx="14"
+            x={labelX - 50}
+            y={labelY - 12}
+            width="100"
+            height="24"
             className="fill-orange-500 cursor-pointer hover:fill-orange-600 transition-colors duration-200 drop-shadow-md"
             onClick={handleAddCondition}
             style={{ pointerEvents: 'all' }}
@@ -121,7 +120,7 @@ const ConditionEdge = ({
             y={labelY + 5}
             textAnchor="middle"
             fill="white"
-            fontSize="12"
+            fontSize="10"
             className="pointer-events-none font-semibold"
           >
             {selectedCondition.conditionName || 'Condition'}
@@ -131,15 +130,15 @@ const ConditionEdge = ({
 
       {showConditionModal && createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="bg-black/50 backdrop-blur-sm absolute inset-0" onClick={() => setShowConditionModal(false)} />
+          <div className="bg-black/50 absolute inset-0" onClick={() => setShowConditionModal(false)} />
           <div
-            className="bg-white/95 backdrop-blur-sm border border-slate-200 rounded-xl shadow-2xl p-6 relative max-w-md w-full"
+            className="bg-white border-2 border-slate-300 shadow-2xl p-6 relative max-w-md w-full"
             style={{ zIndex: 9999 }}
             role="dialog"
             aria-labelledby="condition-modal-title"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-orange-600 border-2 border-orange-700 flex items-center justify-center">
                 <Settings className="w-4 h-4 text-white" />
               </div>
               <h4 id="condition-modal-title" className="text-lg font-bold text-slate-800">
@@ -148,7 +147,7 @@ const ConditionEdge = ({
             </div>
             
             {error && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <div className="mb-4 p-3 bg-red-50 border-2 border-red-300">
                 <p className="text-red-600 text-sm">{error}</p>
               </div>
             )}
@@ -164,7 +163,7 @@ const ConditionEdge = ({
                     const condition = conditions.find((c) => c.conditionKey === e.target.value);
                     setSelectedCondition(condition || null);
                   }}
-                  className="w-full px-4 py-3 text-sm border-2 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 text-sm border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200"
                 >
                   <option value="">Choose a condition...</option>
                   {conditions.map((condition) => (
@@ -176,11 +175,11 @@ const ConditionEdge = ({
               </div>
 
               {selectedCondition && (
-                <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                <div className="p-4 bg-slate-50 border-2 border-slate-300">
                   <div className="space-y-3">
                     <div>
                       <div className="text-sm font-semibold text-slate-700 mb-1">Expression</div>
-                      <div className="text-sm text-slate-600 font-mono bg-white p-2 rounded border">
+                      <div className="text-sm text-slate-600 font-mono bg-white p-2 border-2 border-slate-300">
                         {selectedCondition.conditionExpression || 'No expression defined'}
                       </div>
                     </div>
@@ -197,7 +196,7 @@ const ConditionEdge = ({
               <div className="flex gap-3 pt-4">
                 <button
                   onClick={handleSaveCondition}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors duration-200 font-semibold"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-orange-600 text-white border-2 border-orange-700 hover:bg-orange-700 transition-colors duration-200 font-semibold"
                 >
                   <Check className="w-4 h-4" />
                   Apply
@@ -205,14 +204,14 @@ const ConditionEdge = ({
                 {selectedCondition && (
                   <button
                     onClick={handleRemoveCondition}
-                    className="px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-semibold"
+                    className="px-4 py-3 bg-red-600 text-white border-2 border-red-700 hover:bg-red-700 transition-colors duration-200 font-semibold"
                   >
                     Remove
                   </button>
                 )}
                 <button
                   onClick={() => setShowConditionModal(false)}
-                  className="px-4 py-3 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition-colors duration-200 font-semibold"
+                  className="px-4 py-3 bg-slate-200 text-slate-700 border-2 border-slate-300 hover:bg-slate-300 transition-colors duration-200 font-semibold"
                 >
                   <X className="w-4 h-4" />
                 </button>
