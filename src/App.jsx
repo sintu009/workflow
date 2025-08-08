@@ -114,26 +114,49 @@ function WorkflowBuilder() {
       return;
     }
 
-    // Handle different JSON structures
+    // Handle different JSON structures and ensure proper node ID generation
+    let loadedNodes = [];
+    let loadedEdges = [];
+    let workflowName = '';
+
     if (workflowJson.nodes && workflowJson.edges) {
       // Direct nodes/edges format
-      setNodes(workflowJson.nodes);
-      setEdges(workflowJson.edges);
-      setCurrentWorkflowName(workflowJson.workflowName || '');
+      loadedNodes = workflowJson.nodes.map(node => ({
+        ...node,
+        id: node.id || getId(), // Ensure each node has an ID
+      }));
+      loadedEdges = workflowJson.edges.map(edge => ({
+        ...edge,
+        id: edge.id || `edge_${edge.source}_${edge.target}`, // Ensure each edge has an ID
+      }));
+      workflowName = workflowJson.workflowName || '';
     } else if (workflowJson.clientId && workflowJson.workflowName) {
       // Full workflow format with clientId
-      setNodes(workflowJson.nodes || []);
-      setEdges(workflowJson.edges || []);
-      setCurrentWorkflowName(workflowJson.workflowName);
-    } else {
-      // Fallback for unknown structure
-      setNodes([]);
-      setEdges([]);
-      setCurrentWorkflowName('');
+      loadedNodes = (workflowJson.nodes || []).map(node => ({
+        ...node,
+        id: node.id || getId(),
+      }));
+      loadedEdges = (workflowJson.edges || []).map(edge => ({
+        ...edge,
+        id: edge.id || `edge_${edge.source}_${edge.target}`,
+      }));
+      workflowName = workflowJson.workflowName;
     }
+
+    // Update node counter to prevent ID conflicts
+    const maxNodeId = loadedNodes.reduce((max, node) => {
+      const nodeNum = parseInt(node.id.replace('node_', ''));
+      return isNaN(nodeNum) ? max : Math.max(max, nodeNum);
+    }, nodeId);
+    nodeId = maxNodeId + 1;
+
+    setNodes(loadedNodes);
+    setEdges(loadedEdges);
+    setCurrentWorkflowName(workflowName);
     setIsWorkflowModified(false);
+    
     // Reset history when loading new workflow
-    const initialState = { nodes: workflowJson?.nodes || [], edges: workflowJson?.edges || [] };
+    const initialState = { nodes: loadedNodes, edges: loadedEdges };
     setHistory([initialState]);
     setHistoryIndex(0);
   }, [setNodes, setEdges]);

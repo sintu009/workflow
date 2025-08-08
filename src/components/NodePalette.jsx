@@ -32,6 +32,12 @@ const NodePalette = ({ onDragStart, onWorkflowSelect }) => {
     setIsLoading(true);
     setSelectedWorkflow(workflowName);
     const data = await api.getWorkflowJson(workflowName);
+    
+    // Add workflow name to the data if it's missing
+    if (data && !data.workflowName) {
+      data.workflowName = workflowName;
+    }
+    
     setWorkflowJson(data);
     if (onWorkflowSelect) {
       onWorkflowSelect(data);
