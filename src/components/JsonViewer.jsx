@@ -83,32 +83,32 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
   };
 
   return (
-    <div className="w-96 bg-white border-l-2 border-slate-300 shadow-lg overflow-y-auto">
+    <div className="w-full bg-white border-l-2 border-slate-300 shadow-lg overflow-y-auto">
       {/* Header */}
-      <div className="p-6 border-b-2 border-slate-300 bg-slate-50">
+      <div className="p-4 border-b-2 border-slate-300 bg-slate-50">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-8 h-8 bg-purple-600 border-2 border-purple-700 flex items-center justify-center">
             <Code className="w-4 h-4 text-white" />
           </div>
-          <h3 className="text-lg font-bold text-slate-800">Workflow JSON</h3>
+          <h3 className="text-sm font-bold text-slate-800">JSON</h3>
         </div>
         {isModified && (
           <div className="flex items-center gap-2 mt-2">
             <AlertCircle className="w-4 h-4 text-amber-600" />
-            <span className="text-sm text-amber-700 font-medium">Unsaved changes</span>
+            <span className="text-xs text-amber-700 font-medium">Unsaved</span>
           </div>
         )}
       </div>
 
       {/* Configuration */}
-      <div className="p-6 space-y-4 border-b-2 border-slate-300">
+      <div className="p-4 space-y-3 border-b-2 border-slate-300">
         <div className="flex items-center gap-2 mb-4">
           <Settings className="w-4 h-4 text-slate-600" />
-          <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">Configuration</h4>
+          <h4 className="text-xs font-semibold text-slate-700 uppercase tracking-wide">Config</h4>
         </div>
         
         <div>
-          <label htmlFor="clientId" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="clientId" className="block text-xs font-semibold text-slate-700 mb-2">
             Client ID
           </label>
           <input
@@ -116,13 +116,13 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
             id="clientId"
             value={clientId}
             onChange={(e) => setClientId(e.target.value)}
-            className="w-full p-3 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+            className="w-full p-2 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-xs"
             placeholder="Enter client ID"
           />
         </div>
         
         <div>
-          <label htmlFor="workflowName" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="workflowName" className="block text-xs font-semibold text-slate-700 mb-2">
             Workflow Name
           </label>
           <input
@@ -130,18 +130,18 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
             id="workflowName"
             value={workflowName}
             onChange={(e) => setWorkflowName(e.target.value)} 
-            className="w-full p-3 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+            className="w-full p-2 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-xs"
             placeholder="Enter workflow name"
           />
         </div>
         
         {currentWorkflowName && (
-          <div className="p-3 bg-blue-50 border-2 border-blue-300">
+          <div className="p-2 bg-blue-50 border-2 border-blue-300">
             <div className="flex items-center gap-2">
               <CheckCircle className="w-4 h-4 text-blue-600" />
-              <div className="text-sm">
-                <div className="font-medium text-blue-900">Currently Editing</div>
-                <div className="text-blue-700">{currentWorkflowName}</div>
+              <div className="text-xs">
+                <div className="font-medium text-blue-900">Editing</div>
+                <div className="text-blue-700 truncate">{currentWorkflowName}</div>
               </div>
             </div>
           </div>
@@ -150,7 +150,7 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className={`w-full flex items-center justify-center gap-3 p-3 border-2 font-semibold transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed ${
+          className={`w-full flex items-center justify-center gap-2 p-2 border-2 font-semibold transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-xs ${
             isModified 
               ? 'bg-amber-500 border-amber-600 hover:bg-amber-600 text-white' 
               : 'bg-blue-600 border-blue-700 hover:bg-blue-700 text-white'
@@ -158,12 +158,12 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
         >
           {isSaving ? (
             <>
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-3 h-3 border-2 border-white border-t-transparent animate-spin"></div>
               Saving...
             </>
           ) : (
             <>
-              <Save className="w-4 h-4" />
+              <Save className="w-3 h-3" />
               {isModified ? 'Save Changes' : 'Save Workflow'}
             </>
           )}
@@ -171,18 +171,18 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
       </div>
       
       {/* JSON Preview */}
-      <div className="p-6">
-        <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wide mb-4">JSON Preview</h4>
+      <div className="p-4">
+        <h4 className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-3">Preview</h4>
         <div className="bg-slate-900 border-2 border-slate-300 overflow-hidden">
-          <div className="p-4 bg-slate-800 border-b-2 border-slate-700">
+          <div className="p-2 bg-slate-800 border-b-2 border-slate-700">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-red-500"></div>
-              <div className="w-3 h-3 bg-yellow-500"></div>
-              <div className="w-3 h-3 bg-green-500"></div>
+              <div className="w-2 h-2 bg-red-500"></div>
+              <div className="w-2 h-2 bg-yellow-500"></div>
+              <div className="w-2 h-2 bg-green-500"></div>
               <span className="ml-2 text-xs text-slate-400 font-mono">workflow.json</span>
             </div>
           </div>
-          <pre className="text-xs text-green-400 p-4 overflow-auto max-h-96 font-mono leading-relaxed">
+          <pre className="text-xs text-green-400 p-3 overflow-auto max-h-64 font-mono leading-relaxed">
             {JSON.stringify(workflowData, null, 2)}
           </pre>
         </div>
