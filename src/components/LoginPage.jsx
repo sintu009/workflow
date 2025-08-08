@@ -24,7 +24,7 @@ const LoginPage = ({ onLogin }) => {
     setError('');
 
     try {
-      const response = await api.login(credentials.username, credentials.password);
+      const response = await api.login(credentials);
       if (response.success) {
         onLogin(response.data);
       } else {
