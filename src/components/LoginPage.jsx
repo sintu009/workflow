@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Lock, User, Eye, EyeOff, Workflow } from 'lucide-react';
+import { api } from '../services/api';
 
 const LoginPage = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({
@@ -33,18 +34,12 @@ const LoginPage = ({ onLogin }) => {
     }
 
     try {
-      // Simulate API call - replace with actual authentication logic
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const result = await api.login(credentials);
       
-      // For demo purposes, accept any non-empty credentials
-      // In a real app, you'd validate against your backend
-      if (credentials.username && credentials.password) {
-        onLogin({
-          username: credentials.username,
-          isAuthenticated: true
-        });
+      if (result.success) {
+        onLogin(result.data);
       } else {
-        setError('Invalid credentials');
+        setError(result.message);
       }
     } catch (err) {
       setError('Login failed. Please try again.');

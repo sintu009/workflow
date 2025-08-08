@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Code, Save, AlertCircle, CheckCircle, Settings } from 'lucide-react';
+import { api } from '../services/api';
 
 const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false }) => {
   const [clientId, setClientId] = useState('client61');
@@ -65,32 +66,17 @@ const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false
       }
 
       setIsSaving(true);
-      console.log('Sending workflowData:', JSON.stringify(workflowData, null, 2));
       
-      const response = await fetch('/workflow-api/generateBPMN', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(workflowData)
-      });
-
-      const responseText = await response.text();
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.status} ${response.statusText}${responseText ? ` - ${responseText}` : ''}`);
-      }
-
-      try {
-        const result = JSON.parse(responseText);
-        console.log('API response:', result);
-      } catch (jsonErr) {
-        console.log('Non-JSON API response:', responseText);
-      }
+      const result = await api.generateBPMN(workflowData);
       
-      alert('Workflow successfully generated!');
+      if (result.success) {
+        alert(result.message);
+      } else {
+        alert(result.message);
+      }
     } catch (error) {
       console.error('Error saving workflow:', error);
-      alert('Error saving workflow: ' + error);
+      alert('Error saving workflow: ' + error.message);
     } finally {
       setIsSaving(false);
     }
