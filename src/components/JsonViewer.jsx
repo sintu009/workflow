@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 
-const JsonViewer = ({ nodes, edges }) => {
+const JsonViewer = ({ nodes, edges, currentWorkflowName = '', isModified = false }) => {
   const [clientId, setClientId] = useState('client61');
-  const [workflowName, setWorkflowName] = useState('');
+  const [workflowName, setWorkflowName] = useState(currentWorkflowName);
   const [showPopup, setShowPopup] = useState(false);
 
+  // Update workflow name when currentWorkflowName changes
+  React.useEffect(() => {
+    if (currentWorkflowName && !workflowName) {
+      setWorkflowName(currentWorkflowName);
+    }
+  }, [currentWorkflowName, workflowName]);
   const workflowData = {
     clientId,
     workflowName,
@@ -89,7 +95,15 @@ const JsonViewer = ({ nodes, edges }) => {
 
   return (
     <div className="w-80 bg-gray-50 border-l border-gray-200 p-4 overflow-y-auto">
-      <h3 className="text-lg font-semibold mb-4 text-gray-800">Workflow JSON</h3>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-gray-800">Workflow JSON</h3>
+        {isModified && (
+          <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">
+            Modified
+          </span>
+        )}
+      </div>
+      
       <div className="mb-4">
         <label htmlFor="clientId" className="block text-sm font-medium text-gray-700 mb-1">
           Client ID
@@ -116,12 +130,26 @@ const JsonViewer = ({ nodes, edges }) => {
           placeholder="Enter workflow name"
         />
       </div>
+      
+      {currentWorkflowName && (
+        <div className="mb-4 p-2 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="text-xs text-blue-600">
+            Currently editing: <span className="font-medium">{currentWorkflowName}</span>
+          </div>
+        </div>
+      )}
+      
       <button
         onClick={handleSave}
-        className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors mb-4"
+        className={`w-full p-2 rounded-lg transition-colors mb-4 ${
+          isModified 
+            ? 'bg-orange-500 hover:bg-orange-600 text-white' 
+            : 'bg-blue-500 hover:bg-blue-600 text-white'
+        }`}
       >
-        Save Workflow
+        {isModified ? 'Save Changes' : 'Save Workflow'}
       </button>
+      
       <pre className="text-xs bg-white p-3 rounded-lg border border-gray-200 overflow-auto">
         {JSON.stringify(workflowData, null, 2)}
       </pre>

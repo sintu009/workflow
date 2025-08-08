@@ -44,22 +44,55 @@ function WorkflowBuilder() {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [selectedWorkflowJson, setSelectedWorkflowJson] = useState(null);
+  const [currentWorkflowName, setCurrentWorkflowName] = useState('');
+  const [isWorkflowModified, setIsWorkflowModified] = useState(false);
 
   // Helper: Convert workflow JSON to nodes and edges for React Flow
   const loadWorkflowFromJson = useCallback((workflowJson) => {
-    if (!workflowJson) return;
-    // Example assumes workflowJson has 'nodes' and 'edges' arrays in correct format
-    // You may need to adapt this if your JSON structure is different
-    if (workflowJson.nodes && workflowJson.edges) {
-      setNodes(workflowJson.nodes);
-      setEdges(workflowJson.edges);
-    } else {
-      // Fallback: try to map a simple structure
+    if (!workflowJson) {
       setNodes([]);
       setEdges([]);
+      setCurrentWorkflowName('');
+      setIsWorkflowModified(false);
+      return;
     }
+
+    // Handle different JSON structures
+    if (workflowJson.nodes && workflowJson.edges) {
+      // Direct nodes/edges format
+      setNodes(workflowJson.nodes);
+      setEdges(workflowJson.edges);
+      setCurrentWorkflowName(workflowJson.workflowName || '');
+    } else if (workflowJson.clientId && workflowJson.workflowName) {
+      // Full workflow format with clientId
+      setNodes(workflowJson.nodes || []);
+      setEdges(workflowJson.edges || []);
+      setCurrentWorkflowName(workflowJson.workflowName);
+    } else {
+      // Fallback for unknown structure
+      setNodes([]);
+      setEdges([]);
+      setCurrentWorkflowName('');
+    }
+    setIsWorkflowModified(false);
   }, [setNodes, setEdges]);
 
+  // Track modifications to the workflow
+  const markAsModified = useCallback(() => {
+    setIsWorkflowModified(true);
+  }, []);
+
+  // Enhanced onNodesChange to track modifications
+  const handleNodesChange = useCallback((changes) => {
+    onNodesChange(changes);
+    markAsModified();
+  }, [onNodesChange, markAsModified]);
+
+  // Enhanced onEdgesChange to track modifications
+  const handleEdgesChange = useCallback((changes) => {
+    onEdgesChange(changes);
+    markAsModified();
+  }, [onEdgesChange, markAsModified]);
   const onConnect = useCallback((params) => {
     const sourceNode = nodes.find(node => node.id === params.source);
     const edgeType = sourceNode?.type === 'gateway' ? 'condition' : 'default';
@@ -72,6 +105,7 @@ function WorkflowBuilder() {
     };
     
     setEdges((eds) => addEdge(newEdge, eds));
+    markAsModified();
   }, [nodes, setEdges]);
 
   const onDragStart = (event, nodeType) => {
@@ -103,8 +137,9 @@ function WorkflowBuilder() {
       };
 
       setNodes((nds) => nds.concat(newNode));
+      markAsModified();
     },
-    [reactFlowInstance, setNodes]
+    [reactFlowInstance, setNodes, markAsModified]
   );
 
   const onDragOver = useCallback((event) => {
@@ -133,6 +168,7 @@ function WorkflowBuilder() {
       )
     );
     setShowPropertiesPanel(false);
+    markAsModified();
   }, [setNodes]);
 
   const onClosePropertiesPanel = useCallback(() => {
@@ -148,6 +184,7 @@ function WorkflowBuilder() {
           : edge
       )
     );
+    markAsModified();
   }, [setEdges]);
 
   // Handler for workflow selection from NodePalette
@@ -161,11 +198,25 @@ function WorkflowBuilder() {
       <NodePalette onDragStart={onDragStart} onWorkflowSelect={handleWorkflowSelect} />
       
       <div className="flex-1 relative" ref={reactFlowWrapper}>
+        {/* Workflow Status Bar */}
+        {currentWorkflowName && (
+          <div className="absolute top-4 left-4 z-10 bg-white px-3 py-2 rounded-lg shadow-md border border-gray-200">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-gray-700">
+                Editing: {currentWorkflowName}
+              </span>
+              {isWorkflowModified && (
+                <span className="w-2 h-2 bg-orange-500 rounded-full" title="Workflow has unsaved changes"></span>
+              )}
+            </div>
+          </div>
+        )}
+
         <ReactFlow
           nodes={nodes}
           edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
+          onNodesChange={handleNodesChange}
+          onEdgesChange={handleEdgesChange}
           onConnect={onConnect}
           onInit={setReactFlowInstance}
           onDrop={onDrop}
@@ -208,7 +259,12 @@ function WorkflowBuilder() {
         />
       )} 
 
-      <JsonViewer nodes={nodes} edges={edges} />
+      <JsonViewer 
+        nodes={nodes} 
+        edges={edges} 
+        currentWorkflowName={currentWorkflowName}
+        isModified={isWorkflowModified}
+      />
     </div>
   );
 }
