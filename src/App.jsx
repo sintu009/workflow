@@ -46,7 +46,64 @@ function WorkflowBuilder() {
   const [selectedWorkflowJson, setSelectedWorkflowJson] = useState(null);
   const [currentWorkflowName, setCurrentWorkflowName] = useState('');
   const [isWorkflowModified, setIsWorkflowModified] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
 
+  // Save state to history for undo functionality
+  const saveToHistory = useCallback((nodes, edges) => {
+    const newState = { nodes: [...nodes], edges: [...edges] };
+    setHistory(prev => {
+      const newHistory = prev.slice(0, historyIndex + 1);
+      newHistory.push(newState);
+      // Keep only last 50 states to prevent memory issues
+      return newHistory.slice(-50);
+    });
+    setHistoryIndex(prev => Math.min(prev + 1, 49));
+  }, [historyIndex]);
+
+  // Undo functionality
+  const undo = useCallback(() => {
+    if (historyIndex > 0) {
+      const prevState = history[historyIndex - 1];
+      setNodes(prevState.nodes);
+      setEdges(prevState.edges);
+      setHistoryIndex(prev => prev - 1);
+      markAsModified();
+    }
+  }, [history, historyIndex, setNodes, setEdges]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'z' && !event.shiftKey) {
+        event.preventDefault();
+        undo();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [undo]);
+
+  // Listen for delete node events from PropertiesPanel
+  useEffect(() => {
+    const handleDeleteNode = (event) => {
+      const nodeId = event.detail;
+      // Save current state before deletion
+      saveToHistory(nodes, edges);
+      
+      setNodes((nds) => nds.filter((node) => node.id !== nodeId));
+      setEdges((eds) => eds.filter((edge) => edge.source !== nodeId && edge.target !== nodeId));
+      markAsModified();
+    };
+
+    window.addEventListener('deleteNode', handleDeleteNode);
+    return () => {
+      window.removeEventListener('deleteNode', handleDeleteNode);
+    };
+  }, [nodes, edges, saveToHistory, setNodes, setEdges, markAsModified]);
   // Helper: Convert workflow JSON to nodes and edges for React Flow
   const loadWorkflowFromJson = useCallback((workflowJson) => {
     if (!workflowJson) {
@@ -75,6 +132,10 @@ function WorkflowBuilder() {
       setCurrentWorkflowName('');
     }
     setIsWorkflowModified(false);
+    // Reset history when loading new workflow
+    const initialState = { nodes: workflowJson?.nodes || [], edges: workflowJson?.edges || [] };
+    setHistory([initialState]);
+    setHistoryIndex(0);
   }, [setNodes, setEdges]);
 
   // Track modifications to the workflow
@@ -84,16 +145,28 @@ function WorkflowBuilder() {
 
   // Enhanced onNodesChange to track modifications
   const handleNodesChange = useCallback((changes) => {
+    // Save state before changes for undo
+    if (changes.some(change => change.type === 'remove')) {
+      saveToHistory(nodes, edges);
+    }
     onNodesChange(changes);
     markAsModified();
-  }, [onNodesChange, markAsModified]);
+  }, [onNodesChange, markAsModified, nodes, edges, saveToHistory]);
 
   // Enhanced onEdgesChange to track modifications
   const handleEdgesChange = useCallback((changes) => {
+    // Save state before changes for undo
+    if (changes.some(change => change.type === 'remove')) {
+      saveToHistory(nodes, edges);
+    }
     onEdgesChange(changes);
     markAsModified();
-  }, [onEdgesChange, markAsModified]);
+  }, [onEdgesChange, markAsModified, nodes, edges, saveToHistory]);
+
   const onConnect = useCallback((params) => {
+    // Save state before adding new edge
+    saveToHistory(nodes, edges);
+    
     const sourceNode = nodes.find(node => node.id === params.source);
     const edgeType = sourceNode?.type === 'gateway' ? 'condition' : 'default';
     
@@ -106,7 +179,7 @@ function WorkflowBuilder() {
     
     setEdges((eds) => addEdge(newEdge, eds));
     markAsModified();
-  }, [nodes, setEdges]);
+  }, [nodes, setEdges, edges, saveToHistory, markAsModified]);
 
   const onDragStart = (event, nodeType) => {
     event.dataTransfer.setData('application/reactflow', nodeType);
@@ -121,6 +194,9 @@ function WorkflowBuilder() {
       if (typeof type === 'undefined' || !type || !reactFlowInstance) {
         return;
       }
+
+      // Save state before adding new node
+      saveToHistory(nodes, edges);
 
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
@@ -139,7 +215,7 @@ function WorkflowBuilder() {
       setNodes((nds) => nds.concat(newNode));
       markAsModified();
     },
-    [reactFlowInstance, setNodes, markAsModified]
+    [reactFlowInstance, setNodes, markAsModified, nodes, edges, saveToHistory]
   );
 
   const onDragOver = useCallback((event) => {
@@ -153,6 +229,9 @@ function WorkflowBuilder() {
   }, []);
 
   const onNodeUpdate = useCallback((nodeId, data) => {
+    // Save state before updating node
+    saveToHistory(nodes, edges);
+    
     setNodes((nds) =>
       nds.map((node) =>
         node.id === nodeId
@@ -169,7 +248,7 @@ function WorkflowBuilder() {
     );
     setShowPropertiesPanel(false);
     markAsModified();
-  }, [setNodes]);
+  }, [setNodes, nodes, edges, saveToHistory, markAsModified]);
 
   const onClosePropertiesPanel = useCallback(() => {
     setShowPropertiesPanel(false);
@@ -177,6 +256,9 @@ function WorkflowBuilder() {
   }, []);
 
   const onEdgeUpdate = useCallback((edgeId, condition) => {
+    // Save state before updating edge
+    saveToHistory(nodes, edges);
+    
     setEdges((eds) =>
       eds.map((edge) =>
         edge.id === edgeId
@@ -185,7 +267,7 @@ function WorkflowBuilder() {
       )
     );
     markAsModified();
-  }, [setEdges]);
+  }, [setEdges, nodes, edges, saveToHistory, markAsModified]);
 
   // Handler for workflow selection from NodePalette
   const handleWorkflowSelect = (workflowJson) => {

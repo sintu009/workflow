@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { api } from "../services/api";
-import { X, Save } from "lucide-react";
+import { X, Save, Trash2 } from "lucide-react";
 
 const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
   const [tasks, setTasks] = useState([]);
@@ -11,6 +11,15 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
   const [selectedGateway, setSelectedGateway] = useState(null);
   const [event, setEvent] = useState({});
   const [showConditionModal, setShowConditionModal] = useState(false);
+
+  // Add onNodeDelete prop
+  const onNodeDelete = () => {
+    if (selectedNode && window.confirm(`Are you sure you want to delete this ${selectedNode.type} node?`)) {
+      // Emit a custom event that the parent can listen to
+      window.dispatchEvent(new CustomEvent('deleteNode', { detail: selectedNode.id }));
+      onClose();
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -202,6 +211,14 @@ const PropertiesPanel = ({ selectedNode, onNodeUpdate, onClose }) => {
           >
             <Save className="w-4 h-4" />
             Save Changes
+          </button>
+
+          <button
+            onClick={onNodeDelete}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+          >
+            <Trash2 className="w-4 h-4" />
+            Delete Node
           </button>
         </div>
       </div>
