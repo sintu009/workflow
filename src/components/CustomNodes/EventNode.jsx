@@ -14,7 +14,7 @@ const EventNode = ({ data, selected }) => {
     <div className={`group relative transition-all duration-200 ${
       selected ? 'scale-110' : 'hover:scale-105'
     }`}>
-      <div className={`w-16 h-16 shadow-lg bg-green-50 border-2 transition-all duration-200 ${
+      <div className={`w-16 h-16 rounded-full shadow-lg bg-green-50 border-2 transition-all duration-200 ${
         selected 
           ? 'border-green-500 shadow-xl' 
           : 'border-green-200 hover:border-green-400 hover:shadow-xl'
