@@ -20,56 +20,60 @@ const GatewayNode = ({ data, selected }) => {
           : 'border-orange-300 hover:border-orange-400 hover:shadow-xl'
       } flex items-center justify-center relative`}>
         
-        {/* Top Handle */}
+        {/* Top Handle - positioned at top corner */}
         <Handle
           type="target"
           position={Position.Top}
-          className="w-2 h-2 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
+          className="w-3 h-3 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
           style={{ 
             background: '#f97316', 
-            top: '-4px',
+            top: '-6px',
             left: '50%',
             transform: 'translateX(-50%)'
           }}
+          isConnectable={true}
         />
         
-        {/* Left Handle */}
+        {/* Left Handle - positioned at left corner */}
         <Handle
           type="target"
           position={Position.Left}
-          className="w-2 h-2 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
+          className="w-3 h-3 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
           style={{ 
             background: '#f97316',
-            left: '-4px',
+            left: '-6px',
             top: '50%',
             transform: 'translateY(-50%)'
           }}
+          isConnectable={true}
         />
         
-        {/* Right Handle */}
+        {/* Right Handle - positioned at right corner */}
         <Handle
           type="source"
           position={Position.Right}
-          className="w-2 h-2 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
+          className="w-3 h-3 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
           style={{ 
             background: '#f97316',
-            right: '-4px',
+            right: '-6px',
             top: '50%',
             transform: 'translateY(-50%)'
           }}
+          isConnectable={true}
         />
         
-        {/* Bottom Handle */}
+        {/* Bottom Handle - positioned at bottom corner */}
         <Handle
           type="source"
           position={Position.Bottom}
-          className="w-2 h-2 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
+          className="w-3 h-3 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
           style={{ 
             background: '#f97316',
-            bottom: '-4px',
+            bottom: '-6px',
             left: '50%',
             transform: 'translateX(-50%)'
           }}
+          isConnectable={true}
         />
         
         <div className="transform -rotate-45 flex flex-col items-center">
