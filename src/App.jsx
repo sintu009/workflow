@@ -381,6 +381,9 @@ function WorkflowBuilder() {
                 default: return '#64748b';
               }
             }}
+            nodeClassName={(node) => {
+              return node.type === 'event' ? 'rounded-full' : '';
+            }}
             maskColor="rgba(0, 0, 0, 0.1)"
           />
           <Background 
