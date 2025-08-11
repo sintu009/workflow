@@ -20,15 +20,15 @@ const GatewayNode = ({ data, selected }) => {
           : 'border-orange-300 hover:border-orange-400 hover:shadow-xl'
       } flex items-center justify-center relative`}>
         
-        {/* Top Corner Handle */}
+        {/* Top Handles - both input and output */}
         <Handle
           type="target"
           position={Position.Top}
           id="top-target"
-          className="w-4 h-4 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125 rounded-full"
+          className="w-3 h-3 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
           style={{ 
             background: '#f97316', 
-            top: '-8px',
+            top: '-6px',
             left: '50%',
             transform: 'translateX(-50%)'
           }}
@@ -38,25 +38,25 @@ const GatewayNode = ({ data, selected }) => {
           type="source"
           position={Position.Top}
           id="top-source"
-          className="w-4 h-4 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125 rounded-full"
+          className="w-3 h-3 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
           style={{ 
             background: '#f97316', 
-            top: '-8px',
+            top: '-6px',
             left: '50%',
             transform: 'translateX(-50%)'
           }}
           isConnectable={true}
         />
         
-        {/* Left Corner Handle */}
+        {/* Left Handles - both input and output */}
         <Handle
           type="target"
           position={Position.Left}
           id="left-target"
-          className="w-4 h-4 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125 rounded-full"
+          className="w-3 h-3 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
           style={{ 
             background: '#f97316',
-            left: '-8px',
+            left: '-6px',
             top: '50%',
             transform: 'translateY(-50%)'
           }}
@@ -66,25 +66,25 @@ const GatewayNode = ({ data, selected }) => {
           type="source"
           position={Position.Left}
           id="left-source"
-          className="w-4 h-4 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125 rounded-full"
+          className="w-3 h-3 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
           style={{ 
             background: '#f97316',
-            left: '-8px',
+            left: '-6px',
             top: '50%',
             transform: 'translateY(-50%)'
           }}
           isConnectable={true}
         />
         
-        {/* Right Corner Handle */}
+        {/* Right Handles - both input and output */}
         <Handle
           type="target"
           position={Position.Right}
           id="right-target"
-          className="w-4 h-4 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125 rounded-full"
+          className="w-3 h-3 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
           style={{ 
             background: '#f97316',
-            right: '-8px',
+            right: '-6px',
             top: '50%',
             transform: 'translateY(-50%)'
           }}
@@ -94,25 +94,25 @@ const GatewayNode = ({ data, selected }) => {
           type="source"
           position={Position.Right}
           id="right-source"
-          className="w-4 h-4 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125 rounded-full"
+          className="w-3 h-3 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
           style={{ 
             background: '#f97316',
-            right: '-8px',
+            right: '-6px',
             top: '50%',
             transform: 'translateY(-50%)'
           }}
           isConnectable={true}
         />
         
-        {/* Bottom Corner Handle */}
+        {/* Bottom Handles - both input and output */}
         <Handle
           type="target"
           position={Position.Bottom}
           id="bottom-target"
-          className="w-4 h-4 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125 rounded-full"
+          className="w-3 h-3 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
           style={{ 
             background: '#f97316',
-            bottom: '-8px',
+            bottom: '-6px',
             left: '50%',
             transform: 'translateX(-50%)'
           }}
@@ -122,10 +122,10 @@ const GatewayNode = ({ data, selected }) => {
           type="source"
           position={Position.Bottom}
           id="bottom-source"
-          className="w-4 h-4 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125 rounded-full"
+          className="w-3 h-3 !bg-orange-500 !border-2 !border-white absolute shadow-md transition-all duration-200 hover:scale-125"
           style={{ 
             background: '#f97316',
-            bottom: '-8px',
+            bottom: '-6px',
             left: '50%',
             transform: 'translateX(-50%)'
           }}
