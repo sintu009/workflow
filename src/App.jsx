@@ -483,26 +483,7 @@ function App() {
             </div>
           </div>
         </header>
-        {user?.isAuthenticated ? (
-          <WorkflowBuilder />
-        ) : (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="text-center p-8">
-              <div className="w-16 h-16 bg-blue-600 border-2 border-blue-700 flex items-center justify-center shadow-md mx-auto mb-4">
-                <Workflow className="w-8 h-8 text-white" />
-              </div>
-              <h2 className="text-2xl font-bold text-slate-800 mb-2">Welcome to Workflow Builder</h2>
-              <p className="text-slate-600 mb-6">Please login to start designing your workflows</p>
-              <button
-                onClick={handleShowLogin}
-                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white border-2 border-blue-700 hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg mx-auto"
-              >
-                <User className="w-4 h-4" />
-                <span className="font-medium">Login to Continue</span>
-              </button>
-            </div>
-          </div>
-        )}
+        {user?.isAuthenticated && <WorkflowBuilder />}
       </div>
     </ReactFlowProvider>
   );
