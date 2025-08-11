@@ -483,7 +483,7 @@ function App() {
             </div>
           </div>
         </header>
-        {user?.isAuthenticated && <WorkflowBuilder />}
+        <WorkflowBuilder />
       </div>
     </ReactFlowProvider>
   );
